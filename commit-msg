@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# Automatically adds branch name and branch description to every commit message.
+# Expected branch format [feature or bugfix]/[id]-[id]/[description]
+#
+
+# Get branch name from git
+BRANCH=$(git branch | grep '*' | sed 's/* //') 
+
+BRANCH_TYPE=$(echo $BRANCH | cut -f1 -d '/')
+BRANCH_NUMBERS=$(echo $BRANCH | cut -f2 -s -d '/')
+BRANCH_DESCRIPTION=$(echo $BRANCH | cut -f3 -s -d '/')
+
+IFS='-' read -r -a BRANCH_NUMBERS_ARR <<< "$BRANCH_NUMBERS"
+
+# BRANCH_COMMIT_TAG="$BRANCH_TYPE"' #'$BRANCH_NUMBER
+BRANCH_COMMIT_TAG="$BRANCH_TYPE"
+for element in "${BRANCH_NUMBERS_ARR[@]}"
+do
+    echo $element
+    BRANCH_COMMIT_TAG+=" #$element"
+done
+
+# format: [feature or bugfix] #[id] #[id]: [commitMessage]
+echo "$BRANCH_COMMIT_TAG"': '$(cat "$1") > "$1"
