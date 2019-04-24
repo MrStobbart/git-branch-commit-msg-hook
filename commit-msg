@@ -8,14 +8,18 @@
 BRANCH=$(git branch | grep '*' | sed 's/* //') 
 
 BRANCH_TYPE=$(echo $BRANCH | cut -f1 -d '/')
-BRANCH_NUMBERS=$(echo $BRANCH | cut -f2 -s -d '/')
+BRANCH_IDS=$(echo $BRANCH | cut -f2 -s -d '/')
 BRANCH_DESCRIPTION=$(echo $BRANCH | cut -f3 -s -d '/')
 
-IFS='-' read -r -a BRANCH_NUMBERS_ARR <<< "$BRANCH_NUMBERS"
+IFS='-' read -r -a BRANCH_IDS_ARR <<< "$BRANCH_IDS"
+
+# TODO check for merge commits
+
+# TODO check for branch name format
 
 # BRANCH_COMMIT_TAG="$BRANCH_TYPE"' #'$BRANCH_NUMBER
 BRANCH_COMMIT_TAG="$BRANCH_TYPE"
-for element in "${BRANCH_NUMBERS_ARR[@]}"
+for element in "${BRANCH_IDS_ARR[@]}"
 do
     echo $element
     BRANCH_COMMIT_TAG+=" #$element"
