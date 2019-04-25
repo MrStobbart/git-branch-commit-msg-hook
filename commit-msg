@@ -7,23 +7,42 @@
 # Get branch name from git
 BRANCH=$(git branch | grep '*' | sed 's/* //') 
 
-BRANCH_TYPE=$(echo $BRANCH | cut -f1 -d '/')
-BRANCH_IDS=$(echo $BRANCH | cut -f2 -s -d '/')
-BRANCH_DESCRIPTION=$(echo $BRANCH | cut -f3 -s -d '/')
+# Get commit message
+COMMIT_MESSAGE="$(cat "$1")"
 
-IFS='-' read -r -a BRANCH_IDS_ARR <<< "$BRANCH_IDS"
+# Only use the inserted commit message (-the prefix) when the prefix is either "no " or "no-hook "
+COMMIT_MESSAGE_START=$(echo $COMMIT_MESSAGE | cut -f1 -d ' ') 
+if [ "$COMMIT_MESSAGE_START" = "no" ] ; then
+	COMMIT_MESSAGE_NO_START="${COMMIT_MESSAGE#"no "}"
+    echo "$COMMIT_MESSAGE_NO_START" > $1
+elif [ "$COMMIT_MESSAGE_START" = "no-hook" ] ; then
+	COMMIT_MESSAGE_NO_START="${COMMIT_MESSAGE#"no-hook "}"
+    echo "$COMMIT_MESSAGE_NO_START" > $1
+else
+    # First entry is type
+    BRANCH_TYPE=$(echo $BRANCH | cut -f1 -d '/')
 
-# TODO check for merge commits
+    # Second entry is ids
+    BRANCH_IDS=$(echo $BRANCH | cut -f2 -s -d '/')
 
-# TODO check for branch name format
+    # Third entry is description
+    BRANCH_DESCRIPTION=$(echo $BRANCH | cut -f3 -s -d '/')
 
-# BRANCH_COMMIT_TAG="$BRANCH_TYPE"' #'$BRANCH_NUMBER
-BRANCH_COMMIT_TAG="$BRANCH_TYPE"
-for element in "${BRANCH_IDS_ARR[@]}"
-do
-    echo $element
-    BRANCH_COMMIT_TAG+=" #$element"
-done
 
-# format: [feature or bugfix] #[id] #[id]: [commitMessage]
-echo "$BRANCH_COMMIT_TAG"': '$(cat "$1") > "$1"
+    # Seperate branch id string by '-'
+    IFS='-' read -r -a BRANCH_IDS_ARR <<< "$BRANCH_IDS"
+
+    # TODO check for merge commits
+
+    # TODO check for branch name format
+
+    # BRANCH_COMMIT_TAG="$BRANCH_TYPE"' #'$BRANCH_NUMBER
+    BRANCH_COMMIT_TAG="$BRANCH_TYPE"
+    for element in "${BRANCH_IDS_ARR[@]}"
+    do
+        BRANCH_COMMIT_TAG+=" #$element"
+    done
+
+    # format: [feature or bugfix] #[id] #[id]: [commitMessage]
+    echo "$BRANCH_COMMIT_TAG"': '$(cat "$1") > "$1"
+fi
