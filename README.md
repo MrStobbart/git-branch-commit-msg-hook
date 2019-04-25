@@ -1,6 +1,5 @@
 # git-branch-commit-msg-hook
 
-
 This script is a [git hook](https://githooks.com/) for commit messages.
 
 When the branchname has the correct format: `[type]/[id1]-[id2]/[name]` The type and id will be prefixed for each commit. Each commit will then have the following format: `[type] #[id] #[id]: [commitMessage]`.
