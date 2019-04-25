@@ -2,7 +2,7 @@
 
 ## How To Use
 
-This script is a [git hook](https://githooks.com/) that adds the branch and feature id to the commit message. To use it in a git repository copy `the commit-msg` fiel into your `.git/hooks` folder.
+This script is a [git hook](https://githooks.com/) that adds the branch and feature id to the commit message. To use it in a git repository copy `the commit-msg` fiel into your `.git/hooks/` folder.
 
 When the branchname has the correct format: `[type]/[id1]-[id2]/[name]` The type and id will be prefixed for each commit. Each commit will then have the following format: `[type] #[id] #[id]: [commitMessage]`.
 
