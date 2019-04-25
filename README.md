@@ -14,5 +14,5 @@ If no id is present (e.g. master or develop branch) the hook will only add the b
 
 ## How to ignore Hook for one Commit
 
-If the branch name should be ignored for a commit, start the commit message with **space separated** **`no-hook`** or **`no`**.
+If the branch name should be ignored for a commit, start the commit message with **`no-hook`** or **`no`** **followed by a space**. Don't forget to then add the branch tag and issue id manually. (`no-hook [branchTag] #[branchId]: [commitMessage]`)
 
