@@ -11,5 +11,5 @@ When the branchname has the correct format: `[type]/[id1]-[id2]/[name]` The type
 
 If no id is present (e.g. master or develop branch) the hook will only add the branch name in front of the commit.
 
-If the branch name should be ignored for a commit, start the commit message with `no-hook` or `no`.
+If the branch name should be ignored for a commit, start the commit message with **space separated** **`no-hook`** or **`no`**.
 
