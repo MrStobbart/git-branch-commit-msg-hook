@@ -6,7 +6,7 @@ This script is a [git hook](https://githooks.com/) that adds the branch and feat
 
 When the branchname has the following format: `[type]/[id1]/[name]` The type and id will be prefixed for each commit. Each commit will then have the following format: `[type] #[id]: [commitMessage]`.
 
-Example: `feature/182/Implement-password-reset`
+Example: `feature/182/Implement-password-reset` -> `feature #182: [commitMessage]`
 
 * `[type]`: Type of the branch, usually `feature`or `bugfix`
 * `[id]`: Id of the related issue/ticket. Should the branch be responsible for multiple issues/tickets they should be separated by a 'minus' (`-`). The hook always uses the string after the first `/` as id(s).
@@ -18,5 +18,5 @@ If no id is present (e.g. master or develop branch) the hook will only add the b
 
 If the branch name should be ignored for a commit, start the commit message with **`no-hook`** or **`no`** **followed by a space**. Don't forget to then add the branch tag and issue id manually. (`no-hook [branchTag] #[branchId]: [commitMessage]`)
 
-Example: `no bugfix #192 Fixed logging`
+Example: `no bugfix #192: Fixed logging` -> `bugfix #192: Fixed logging`
 
