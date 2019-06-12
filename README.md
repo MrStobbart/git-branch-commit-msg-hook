@@ -20,4 +20,6 @@ If no id is present (e.g. master or develop branch) the hook will only add the b
 
 If the branch name should be ignored for a commit, start the commit message with **`no-hook`** or **`no`** **followed by a space**. Don't forget to then add the branch tag and issue id manually. (`no-hook [branchTag] #[branchId]: [commitMessage]`)
 
+Merge commits are also ignored by this hook, when they start with `Merge ` (remember the space).
+
 Example: (commit message)`no bugfix #192: Fixed logging` -> (creates commit message)`bugfix #192: Fixed logging`

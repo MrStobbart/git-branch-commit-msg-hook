@@ -13,11 +13,16 @@ COMMIT_MESSAGE="$(cat "$1")"
 # Only use the inserted commit message (-the prefix) when the prefix is either "no " or "no-hook "
 COMMIT_MESSAGE_START=$(echo $COMMIT_MESSAGE | cut -f1 -d ' ') 
 if [ "$COMMIT_MESSAGE_START" = "no" ] ; then
-	COMMIT_MESSAGE_NO_START="${COMMIT_MESSAGE#"no "}"
+    # Cut away no and use rest of message
+    COMMIT_MESSAGE_NO_START="${COMMIT_MESSAGE#"no "}"
     echo "$COMMIT_MESSAGE_NO_START" > $1
 elif [ "$COMMIT_MESSAGE_START" = "no-hook" ] ; then
-	COMMIT_MESSAGE_NO_START="${COMMIT_MESSAGE#"no-hook "}"
+    # Cut away no-hook and use rest of message
+    COMMIT_MESSAGE_NO_START="${COMMIT_MESSAGE#"no-hook "}"
     echo "$COMMIT_MESSAGE_NO_START" > $1
+elif [ "$COMMIT_MESSAGE_START" = "Merge" ] ; then
+    # Use commit message
+    echo $(cat "$1") > "$1"
 else
     # First entry is type
     BRANCH_TYPE=$(echo $BRANCH | cut -f1 -d '/')
@@ -31,8 +36,6 @@ else
 
     # Seperate branch id string by '-'
     IFS='-' read -r -a BRANCH_IDS_ARR <<< "$BRANCH_IDS"
-
-    # TODO check for merge commits
 
     # TODO check for branch name format
 
